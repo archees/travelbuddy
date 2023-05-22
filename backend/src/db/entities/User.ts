@@ -5,7 +5,7 @@ import { Match } from "./Match.js";
 
 import { Enum } from "@mikro-orm/core";
 import { Message } from "./Message.js";
-
+import {Reviews} from "./Reviews.js";
 export enum UserRole {
 	ADMIN = 'Admin',
 	USER = 'User'
@@ -25,9 +25,6 @@ export class User extends DoggrBaseEntity {
 
 	@Property()
 	password!: string;
-
-	@Property()
-	petType!: string;
 
 	@Enum(() => UserRole)
 	role!: UserRole; // string enum
@@ -61,4 +58,11 @@ export class User extends DoggrBaseEntity {
 		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
 	)
 	messages_received!: Collection<Message>;
+
+	@OneToMany(
+		() => Reviews,
+		review => review.user,
+		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
+	)
+	user_reviews!: Collection<Message>;
 }
