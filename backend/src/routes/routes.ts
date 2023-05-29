@@ -5,6 +5,7 @@ import { FastifyInstance } from "fastify";
 import { MatchRoutesInit } from "./match_routes.js";
 import { MessageRoutesInit } from "./message_routes.js";
 import { UserRoutesInit } from "./user_routes.js";
+import { ReviewsRoutesInit } from "./review_routes.js";
 
 /** This function creates all backend routes for the site
  *
@@ -12,7 +13,7 @@ import { UserRoutesInit } from "./user_routes.js";
  * @param {{}} _options - Fastify instance options (Optional)
  * @returns {Promise<void>} - Returns all of the initialized routes
  */
-async function DoggrRoutes(app: FastifyInstance, _options = {}) {
+async function TBRoutes(app: FastifyInstance, _options = {}) {
 	if (!app) {
 		throw new Error("Fastify instance has no value during routes construction");
 	}
@@ -20,6 +21,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	UserRoutesInit(app);
 	MatchRoutesInit(app);
 	MessageRoutesInit(app);
+	ReviewsRoutesInit(app);
 }
 
-export default DoggrRoutes;
+export default TBRoutes;

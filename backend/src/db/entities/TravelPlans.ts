@@ -1,15 +1,20 @@
-import { DoggrBaseEntity } from "./DoggrBaseEntity.js";
+import { TBBaseEntity } from "./TBBaseEntity.js";
 import { User } from "./User.js";
-import {Entity, Property, ManyToOne, ManyToMany, Collection} from "@mikro-orm/core";
+import type {Ref, Rel} from "@mikro-orm/core";
+import {Entity, Property, ManyToMany, Collection, ManyToOne} from "@mikro-orm/core";
 
 
 @Entity()
-export class TravelPlans extends DoggrBaseEntity {
+export class TravelPlans extends TBBaseEntity {
     @Property()
     planid:number;
+    @ManyToOne()
+    poster!: Ref<User>;
     //location of travel
     @Property()
-    location!: string;
+    FromlocationCity!: string;
+    @Property()
+    Destination!:string;
     //travel start date
     @Property()
     startDate!: Date;

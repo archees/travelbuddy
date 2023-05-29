@@ -9,7 +9,6 @@ export class UserSeeder extends Seeder {
 			name: "Spot",
 			email: "email@email.com",
 			password: "password",
-			petType: "Dog",
 			role: UserRole.ADMIN,
 		});
 
@@ -17,7 +16,6 @@ export class UserSeeder extends Seeder {
 			name: "Dogbert",
 			email: "email2@email.com",
 			password: "password",
-			petType: "Dog",
 			role: UserRole.USER,
 		});
 
@@ -25,7 +23,6 @@ export class UserSeeder extends Seeder {
 			name: "Doglord",
 			email: "email3@email.com",
 			password: "password",
-			petType: "Dog",
 			role: UserRole.USER,
 		});
 
@@ -33,7 +30,6 @@ export class UserSeeder extends Seeder {
 			name: "NotaDog",
 			email: "email4@email.com",
 			password: "password",
-			petType: "Cat",
 			role: UserRole.USER,
 		});
 	}

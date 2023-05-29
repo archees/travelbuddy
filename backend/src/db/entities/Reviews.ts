@@ -1,9 +1,12 @@
-import { Entity, Property, ManyToOne } from "@mikro-orm/core";
-import { DoggrBaseEntity } from "./DoggrBaseEntity.js";
+import {Entity, Property, ManyToOne } from "@mikro-orm/core";
+import type {Rel} from "@mikro-orm/core";
+import { TBBaseEntity } from "./TBBaseEntity.js";
 import { User } from "./User.js";
+import {SoftDeletable} from "mikro-orm-soft-delete";
 
+@SoftDeletable(() => Reviews, "deleted_at", () => new Date())
 @Entity()
-export class Reviews extends DoggrBaseEntity {
+export class Reviews extends TBBaseEntity{
     @Property()
     rating!: number;
 
@@ -11,9 +14,9 @@ export class Reviews extends DoggrBaseEntity {
     comment!: string;
 
     @ManyToOne(() => User)
-    user!: User;
+    user!: Rel<User>;
 
     @Property()
     updated?:Date;
-}
 
+}

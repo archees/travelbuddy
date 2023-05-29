@@ -22,7 +22,7 @@ export function UserRoutesInit(app: FastifyInstance) {
 	// User CRUD
 	// Refactor note - We DO use email still for creation!  We can't know the ID yet
 	app.post<{ Body: ICreateUsersBody }>("/users", async (req, reply) => {
-		const { name, email, password, petType } = req.body;
+		const { name, email, password} = req.body;
 
 		try {
 			const newUser = await req.em.create(User, {
@@ -54,7 +54,7 @@ export function UserRoutesInit(app: FastifyInstance) {
 
 	// UPDATE
 	app.put<{ Body: IUpdateUsersBody }>("/users", async (req, reply) => {
-		const { name, id, petType } = req.body;
+		const { name, id } = req.body;
 
 		const userToChange = await req.em.findOneOrFail(User, id, {strict: true});
 		userToChange.name = name;
