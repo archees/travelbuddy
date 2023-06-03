@@ -23,14 +23,15 @@ export type ICreateReview ={
 	user_id:number
 }
 
-export type ICreateTravelPlans = {
-	planid: number,
-	FromlocationCity: string;
-	Destination:string;
-	startDate: Date;
-	endDate: Date;
-	spaceAvailable: number;
-	cost: number;
-	requirements:string;
-	groupMembers:string;
+export type ICreateTravelPlan = {
+	poster_id: number,
+	FromlocationCity: string,
+	FromlocationState: string,
+	Destination: string,
+	startDate: string,
+	endDate: string,
+	spaceAvailable: number,
+	cost: number,
+	requirements?: string
 }
+
