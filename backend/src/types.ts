@@ -19,6 +19,7 @@ export type ICreateMessage = {
 export type ICreateReview ={
 	rating:number,
 	comment:string,
+	reviewer_id:number,
 	user_id:number
 }
 

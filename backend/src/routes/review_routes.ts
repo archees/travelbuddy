@@ -6,17 +6,19 @@ import { ICreateReview } from "../types.js";
 export function ReviewsRoutesInit(app: FastifyInstance) {
     // Create a new review
     app.post<{ Body: ICreateReview }>("/reviews", async (req, reply) => {
-        const { rating, comment, user_id } = req.body;
+        const { rating, comment, reviewer_id, user_id } = req.body;
 
         try {
             // Retrieve the user entity associated with the review
             const userRepository = req.em.getRepository(User);
             const user = await userRepository.findOneOrFail(user_id);
+            const reviewer = await userRepository.findOneOrFail(reviewer_id);
 
             // Create the new review
             const newReview = await req.em.create(Reviews, {
                 rating,
                 comment,
+                reviewer,
                 user,
             });
 
@@ -42,11 +44,11 @@ export function ReviewsRoutesInit(app: FastifyInstance) {
     });
 
     // Get a specific review by its ID
-    app.get<{ Params: { id: number } }>("/reviews/:id", async (req, reply) => {
-        const { id } = req.params;
+    app.get<{ Params: { user_id: number } }>("/reviews/:id", async (req, reply) => {
+        const { user_id } = req.params;
 
         try {
-            const review = await req.em.findOneOrFail(Reviews, id);
+            const review = await req.em.findOneOrFail(Reviews, user_id);
 
             return reply.send(review);
         } catch (err) {

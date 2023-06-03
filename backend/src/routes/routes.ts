@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { FastifyInstance } from "fastify";
-import { MatchRoutesInit } from "./match_routes.js";
 import { MessageRoutesInit } from "./message_routes.js";
 import { UserRoutesInit } from "./user_routes.js";
 import { ReviewsRoutesInit } from "./review_routes.js";
@@ -19,7 +18,6 @@ async function TBRoutes(app: FastifyInstance, _options = {}) {
 	}
 
 	UserRoutesInit(app);
-	MatchRoutesInit(app);
 	MessageRoutesInit(app);
 	ReviewsRoutesInit(app);
 }

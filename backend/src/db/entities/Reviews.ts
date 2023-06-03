@@ -7,14 +7,18 @@ import {SoftDeletable} from "mikro-orm-soft-delete";
 @SoftDeletable(() => Reviews, "deleted_at", () => new Date())
 @Entity()
 export class Reviews extends TBBaseEntity{
+
+    @ManyToOne('User')
+    reviewer!: Rel<User>;
+
+    @ManyToOne()
+    user!: Rel<User>;
+
     @Property()
     rating!: number;
 
     @Property()
     comment!: string;
-
-    @ManyToOne(() => User)
-    user!: Rel<User>;
 
     @Property()
     updated?:Date;

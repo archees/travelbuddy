@@ -1,18 +1,21 @@
 import { TBBaseEntity } from "./TBBaseEntity.js";
 import { User } from "./User.js";
 import type {Ref, Rel} from "@mikro-orm/core";
-import {Entity, Property, ManyToMany, Collection, ManyToOne} from "@mikro-orm/core";
+import {Entity, Property, ManyToMany, Collection, ManyToOne, PrimaryKey} from "@mikro-orm/core";
 
 
 @Entity()
 export class TravelPlans extends TBBaseEntity {
-    @Property()
+    @PrimaryKey()
     planid:number;
-    @ManyToOne()
+    //user who posted
+    @ManyToOne('User')
     poster!: Ref<User>;
     //location of travel
     @Property()
     FromlocationCity!: string;
+    @Property()
+    FromlocationState!:string;
     @Property()
     Destination!:string;
     //travel start date
@@ -36,7 +39,5 @@ export class TravelPlans extends TBBaseEntity {
     //if post is deleted
     @Property({ nullable: true })
     delete_at?: Date;
-    @ManyToMany(() => User)
-    groupMembers = new Collection<User>(this);
 
 }

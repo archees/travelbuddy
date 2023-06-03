@@ -1,7 +1,6 @@
 import { Entity, Property, Unique, OneToMany, Collection, Cascade } from "@mikro-orm/core";
 import { SoftDeletable } from "mikro-orm-soft-delete";
 import { TBBaseEntity } from "./TBBaseEntity.js";
-import { Match } from "./Match.js";
 import {Reviews} from "./Reviews.js";
 
 import { Enum } from "@mikro-orm/core";
@@ -31,19 +30,6 @@ export class User extends TBBaseEntity {
 	role!: UserRole; // string enum
 
 	// Note that these DO NOT EXIST in the database itself!
-	@OneToMany(
-		() => Match,
-		match => match.owner,
-		{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
-	)
-	matches!: Collection<Match>;
-
-	@OneToMany(
-		() => Match,
-		match => match.matchee,
-		{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
-	)
-	matched_by!: Collection<Match>;
 
 	// Orphan removal used in our Delete All Sent Messages route to single-step remove via Collection
 	@OneToMany(
