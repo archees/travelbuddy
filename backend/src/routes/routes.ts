@@ -5,6 +5,8 @@ import { FastifyInstance } from "fastify";
 import { MessageRoutesInit } from "./message_routes.js";
 import { UserRoutesInit } from "./user_routes.js";
 import { ReviewsRoutesInit } from "./review_routes.js";
+import {TravelPlanRoutesInit} from "./travel_routes.js";
+
 
 /** This function creates all backend routes for the site
  *
@@ -20,6 +22,7 @@ async function TBRoutes(app: FastifyInstance, _options = {}) {
 	UserRoutesInit(app);
 	MessageRoutesInit(app);
 	ReviewsRoutesInit(app);
+	TravelPlanRoutesInit(app);
 }
 
 export default TBRoutes;

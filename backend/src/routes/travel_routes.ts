@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify";
 import { TravelPlans } from "../db/entities/TravelPlans.js";
 import { User } from "../db/entities/User.js";
 import { ICreateTravelPlan } from "../types.js";
-import {Reviews} from "../db/entities/Reviews";
 
 export function TravelPlanRoutesInit(app: FastifyInstance) {
 
@@ -44,9 +43,10 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
     });
 
     // Get Travel Plan by ID
-    app.get("/travelplans/:id", async (req, reply) => {
+    app.search<{ Body: { planid: number } }>("/travelplans/:id", async (req, reply) => {
+        const planid=req.body;
         try {
-            const travelPlan = await req.em.findOne(TravelPlans, { planid: req.params.id });
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
@@ -57,9 +57,10 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
     });
 
     // Update a Travel Plan by ID
-    app.put<{ Body: ICreateTravelPlan }>("/travelplans/:id", async (req, reply) => {
+    app.put<{ Body: {planid:number} }>("/travelplans/:id", async (req, reply) => {
+        const planid=req.body;
         try {
-            const travelPlan = await req.em.findOne(TravelPlans, { planid: req.params.id });
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
@@ -72,9 +73,10 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
     });
 
     // Delete a Travel Plan by ID
-    app.delete("/travelplans/:id", async (req, reply) => {
+    app.delete<{ Body: { planid: number } }>("/travelplans/:id", async (req, reply) => {
+        const {planid}=req.body
         try {
-            const travelPlan = await req.em.findOne(TravelPlans, { planid: req.params.id });
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
