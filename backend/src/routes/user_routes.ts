@@ -93,5 +93,22 @@ export function UserRoutesInit(app: FastifyInstance) {
 		} catch (err) {
 			return reply.status(500).send(err);
 		}
+		
+	});
+	app.post<{ Body: { email: string };	}>("/login", { onRequest: [app.auth] }, async (req, reply) => {
+		const { email } = req.body;
+
+		try {
+			const me = await req.em.findOne(User, { email });
+			if (me) {
+				reply.status(200).send({exists: true, id: me.id});
+			} else {
+				app.log.info(`User Not Found`);
+				reply.status(200).send({exists: false, id: null});
+			}
+		} catch (err) {
+			app.log.error(err);
+			reply.status(500).send(err);
+		}
 	});
 }

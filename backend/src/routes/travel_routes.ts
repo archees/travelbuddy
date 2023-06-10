@@ -43,10 +43,10 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
     });
 
     // Get Travel Plan by ID
-    app.search<{ Body: { planid: number } }>("/travelplans/:id", async (req, reply) => {
-        const planid=req.body;
+    app.search<{ Body: { id: number } }>("/travelplans/:id", async (req, reply) => {
+        const { id } = req.params;
         try {
-            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, id, { strict: true });
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
@@ -57,10 +57,10 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
     });
 
     // Update a Travel Plan by ID
-    app.put<{ Body: {planid:number} }>("/travelplans/:id", async (req, reply) => {
-        const planid=req.body;
+    app.put<{ Params: { id: number }; Body: ICreateTravelPlan }>("/travelplans/:id", async (req, reply) => {
+        const { id } = req.params;
         try {
-            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, id, { strict: true });
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
