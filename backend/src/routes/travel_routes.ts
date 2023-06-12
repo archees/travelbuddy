@@ -6,7 +6,7 @@ import { ICreateTravelPlan } from "../types.js";
 export function TravelPlanRoutesInit(app: FastifyInstance) {
 
     // Create a new Travel Plan
-    app.post<{ Body: ICreateTravelPlan }>("/travelplans", async (req, reply) => {
+    app.post<{ Body: ICreateTravelPlan }>("/travelplans", { onRequest: [app.auth] }, async (req, reply) => {
         const { poster_id, FromlocationCity, FromlocationState, Destination, startDate, endDate, spaceAvailable, cost, requirements } = req.body;
 
         try {

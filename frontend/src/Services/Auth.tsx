@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
 
-        const handleGetData = async () => {
+        const handleUserData = async () => {
             try {
                 const accessToken = await getAccessTokenSilently();
                 await updateAxios(accessToken);
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
             }
         };
         if (isAuthenticated) {
-            handleGetData().then();
+            handleUserData().then();
         }
     }, [isAuthenticated, getAccessTokenSilently, user, loginWithRedirect]);
 
@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }) => {
         await loginWithRedirect();
         try {
             const token = await getAccessTokenSilently();
-            await updateAxios(token).then(() => console.log("axios call made"));
+            await updateAxios(token).then(() => console.log("update axios initiated"));
         } catch (error) {
-            console.error("No Access Token Received:", error);
+            console.error("No Token found", error);
         }
     };
     const handleLogout = async () => {
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const UserContext = () => {
+export const UserInfoContext = () => {
     return useContext(AuthContext);
 };
 // eslint-disable-next-line react-refresh/only-export-components
@@ -110,7 +110,7 @@ export async function updateAxios(token: string) {
                 Authorization: `Bearer ${token}`,
                 Accept: "application/json",
             };
-            console.log("update axios successful");
+            console.log("successful sending data to backend");
             return config;
         },
         (error) => {

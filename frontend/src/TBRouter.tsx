@@ -1,6 +1,10 @@
 import {Route, Routes} from "react-router-dom";
 import Profile from "@/Components/Profile.tsx";
 import {Login} from "@/Components/Login.tsx";
+import {ProtectedRoute} from "@/Components/ProtectedRoute.tsx";
+import Home from "@/Components/Home.tsx";
+import {Logout} from "@/Components/Logout.tsx";
+import NavBar from "@/Components/Navigation.tsx";
 
 export function TBRouter() {
 

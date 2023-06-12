@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = ['TravelPlans', 'Messages', 'Team'];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
     <Link
@@ -34,7 +34,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     </Link>
 );
 
-export default function withAction() {
+export default function NavBar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -66,7 +66,7 @@ export default function withAction() {
                             size={'sm'}
                             mr={4}
                             leftIcon={<AddIcon />}>
-                            Action
+                            Create TravelPlan
                         </Button>
                         <Menu>
                             <MenuButton
@@ -83,8 +83,8 @@ export default function withAction() {
                                 />
                             </MenuButton>
                             <MenuList>
-                                <MenuItem>Link 1</MenuItem>
-                                <MenuItem>Link 2</MenuItem>
+                                <MenuItem>Profile</MenuItem>
+                                <MenuItem>Logout</MenuItem>
                                 <MenuDivider />
                                 <MenuItem>Link 3</MenuItem>
                             </MenuList>
@@ -102,8 +102,14 @@ export default function withAction() {
                     </Box>
                 ) : null}
             </Box>
-
-            <Box p={4}>Main Content Here</Box>
         </>
     );
 }
+/*                            <MenuList>
+                                <MenuItem>Link 1</MenuItem>
+                                <MenuItem>Link 2</MenuItem>
+                                <MenuDivider />
+                                <MenuItem>Link 3</MenuItem>
+                            </MenuList>
+
+                                <Box p={4}>Main Content Here</Box>*/
