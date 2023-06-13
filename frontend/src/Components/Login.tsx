@@ -9,7 +9,7 @@ export function Login() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/');
+            navigate('/TravelPlans');
         }
     }, [isAuthenticated, navigate]);
     return (

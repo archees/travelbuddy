@@ -41,6 +41,15 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
             return reply.status(500).send({ message: err.message });
         }
     });
+    app.search<{ Body: {FromlocationState:string} }>("/travelplans/location", async (req, reply) => {
+        const FromlocationState=req.body;
+        try {
+            const travelPlans = await req.em.find(TravelPlans, FromlocationState);
+            return reply.send(travelPlans);
+        } catch (err) {
+            return reply.status(500).send({ message: err.message });
+        }
+    });
 
     // Get Travel Plan by ID
     app.search<{ Body: { id: number } }>("/travelplans/:id", async (req, reply) => {

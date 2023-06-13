@@ -98,7 +98,6 @@ export function UserRoutesInit(app: FastifyInstance) {
 			if (me) {
 				reply.status(200).send({exists: true, id: me.id});
 			} else {
-				app.log.info(`User Not Found`);
 				reply.status(200).send({exists: false, id: null});
 			}
 		} catch (err) {

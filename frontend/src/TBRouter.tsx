@@ -4,23 +4,26 @@ import {Login} from "@/Components/Login.tsx";
 import {ProtectedRoute} from "@/Components/ProtectedRoute.tsx";
 import Home from "@/Components/Home.tsx";
 import {Logout} from "@/Components/Logout.tsx";
-import NavBar from "@/Components/Navigation.tsx";
+import {NavBar} from "@/Components/Navigation.tsx";
+import {TravelPlans} from "@/Components/TravelPlans.tsx";
 
 export function TBRouter() {
 
     return (
-            <div className={"doggrfancy"}>
+            <div className={"tbrouter"}>
                 <NavBar />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/travelplans" element={<ProtectedRoute><TravelPlans /></ProtectedRoute>} />
-                    <Route path="/createplans" element={<ProtectedRoute><CreatePlans/></ProtectedRoute>}/>
                     <Route path="/Profile" element={<Profile/>}/>
-                    <Route path={"/message"} element={<MessagePage/>}/>
-                    <Route path={"/messagehistory"} element={<MessageHistory/>}/>
                     <Route path="/login" element={<Login />} />
                     <Route path="/logout" element={<Logout />} />
                 </Routes>
             </div>
     );
 }
+
+//<Route path={"/messagehistory"} element={<MessageHistory/>}/>
+//<Route path={"/message"} element={<MessagePage/>}/>
+//<Route path="/createplans" element={<ProtectedRoute><CreatePlans/></ProtectedRoute>}/>
+//
