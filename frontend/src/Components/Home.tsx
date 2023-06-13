@@ -9,7 +9,8 @@ import {
 } from '@chakra-ui/react';
 import {useNavigate} from "react-router-dom";
 import { useEffect } from "react";
-import Homeimg from './assests/images/Homeimg.gif';
+import Homeimg from '../assets/images/Homeimg.gif'
+import LoginButton from "./LoginButton.tsx";
 export default function Home() {
     const navigate = useNavigate();
     const onSubmitLogin = () => {

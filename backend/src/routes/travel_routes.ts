@@ -80,6 +80,22 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
             return reply.status(500).send({ message: err.message });
         }
     });
+    //get travelplans of a poster
+    app.get<{ Body: { poster: string } }>("/travelplans/user/poster", async (req, reply) => {
+        const { poster } = req.params;
+        try {
+            const userRepository = req.em.getRepository(User);
+            const user = await userRepository.findOne({ name: poster });
+            if (!user) {
+                return reply.status(404).send({ message: "User not found" });
+            }
+
+            const travelPlans = await req.em.find(TravelPlans, { poster: user });
+            return reply.send(travelPlans);
+        } catch (err) {
+            return reply.status(500).send({ message: err.message });
+        }
+    });
 
     // Delete a Travel Plan by ID
     app.delete<{ Body: { planid: number } }>("/travelplans/:id", async (req, reply) => {

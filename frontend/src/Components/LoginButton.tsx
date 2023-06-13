@@ -13,7 +13,7 @@ import {UserInfoContext} from "@/Services/Auth.tsx";
 
 const LoginButton = (props: {text: string}) => {
     const user = UserInfoContext();
-    return <button onClick={user?.handleLogin}>{props.text}</button>;
+    return <button onClick={user?.handleLogin}>Login</button>;
 };
 
 export default LoginButton;
