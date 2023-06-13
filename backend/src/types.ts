@@ -24,7 +24,7 @@ export type ICreateReview ={
 }
 
 export type ICreateTravelPlan = {
-	poster: number,
+	poster_id: number,
 	FromlocationCity: string,
 	FromlocationState: string,
 	Destination: string,

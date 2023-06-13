@@ -83,7 +83,6 @@ export const TravelPlans = () => {
                             <p>End Date: {plan.endDate}</p>
                             <p>Space Available: {plan.spaceAvailable}</p>
                             <p>Requirements: {plan.requirements}</p>
-                            {/* Add other details as needed */}
                         </div>
                     );
                     return { title, content };
@@ -96,7 +95,10 @@ export const TravelPlans = () => {
         }
     };
     useEffect(() => {
-        handleSearch();
+        const fetchData = async () => {
+            await handleSearch();
+        };
+        fetchData();
     }, []);
     return (
         <Center h="50vh">
