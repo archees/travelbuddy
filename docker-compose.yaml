@@ -34,6 +34,11 @@ services:
       - HOST=0.0.0.0
       - PASSWORD=password
       - NODE_ENV=development
+      - AUTH_DOMAIN=dev-r5lyhax641jhxfup.us.auth0.com
+      - AUTH_CLIENT_ID=qbGdsZBVezJ5ym6ZWProKMW2nCF7N84w
+      - AUTH_CLIENT_SECRET=n0pcvtyHbNBMeogKrT0ob8gcMqblbusPKAzXIXxZyHWa51mURcM0Uo5YZ3NdY22T
+      - AUTH_AUDIENCE=tbapi
+      - AUTH0_SCOPE='openid profile email'
     depends_on:
       postgres:
         condition: service_healthy

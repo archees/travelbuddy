@@ -15,9 +15,16 @@ declare module "fastify" {
 
 export const AuthPlugin = fp(async function (app: FastifyInstance, opts: FastifyPluginOptions) {
     app.register(import("fastify-auth0-verify"), {
-        secret: process.env.AUTH_CLIENT_SECRET,
         domain: process.env.AUTH_DOMAIN,
+        secret: process.env.AUTH_CLIENT_SECRET,
     });
+
+/*
+    fastify.register(require('fastify-auth0-verify'), {
+        domain: config.authprovider.domain,
+        secret: config.authprovider.secret
+    });
+*/
 
     app.decorate("auth", async function (request: FastifyRequest, reply: FastifyReply) {
         try {

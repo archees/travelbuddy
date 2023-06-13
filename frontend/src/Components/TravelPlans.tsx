@@ -1,6 +1,15 @@
 import { Button, Center } from "@chakra-ui/react";
 import { Box, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+} from "@chakra-ui/react";
+import {TravelPlansService} from "@/Services/TravelPlansService.tsx";
+import {useEffect, useState} from "react";
 export const TravelPlans = () => {
     const states = [
         "Alabama",
@@ -56,11 +65,44 @@ export const TravelPlans = () => {
         "Wyoming"
     ];
 
+    const [selectedState, setSelectedState] = useState("");
+    const [showAccordion, setShowAccordion] = useState(false);
+    const [accordionItems, setAccordionItems] = useState([]);
+
+    const handleSearch = async () => {
+        if (selectedState) {
+            try {
+                const response = await TravelPlansService.send(selectedState);
+                const travelPlans = response.data;
+                const items = travelPlans.map((plan) => {
+                    const title = `${plan.poster.name} - From ${plan.FromlocationCity} to ${plan.Destination} ($${plan.cost})`;
+                    const content = (
+                        <div>
+                            <p>From: {plan.FromlocationCity}, {plan.FromlocationState}</p>
+                            <p>Start Date: {plan.startDate}</p>
+                            <p>End Date: {plan.endDate}</p>
+                            <p>Space Available: {plan.spaceAvailable}</p>
+                            <p>Requirements: {plan.requirements}</p>
+                            {/* Add other details as needed */}
+                        </div>
+                    );
+                    return { title, content };
+                });
+                setAccordionItems(items);
+                setShowAccordion(true);
+            } catch (error) {
+                console.error("Error fetching travel plans:", error);
+            }
+        }
+    };
+    useEffect(() => {
+        handleSearch();
+    }, []);
     return (
         <Center h="50vh">
             <Box w="1/3" textAlign="center">
                 <Menu>
-                    <h1>Chose a place to view people travelling from that place</h1>
+                    <h1>Choose a place to view people travelling from that place</h1>
                     <Box >
                         <MenuButton
                             px={4}
@@ -79,12 +121,29 @@ export const TravelPlans = () => {
                     <Box>
                         <MenuList maxH="200px" overflowY="auto">
                             {states.map((item) => (
-                                <MenuItem key={item}>{item}</MenuItem>
+                                <MenuItem key={item} onClick={() => setSelectedState(item)}>{item}</MenuItem>
                             ))}
                         </MenuList>
-                        <Button m={3}>Search</Button>
+                        <Button m={3} onClick={handleSearch}>Search</Button>
                     </Box>
                 </Menu>
+                {showAccordion && (
+                    <Accordion allowMultiple>
+                        {accordionItems.map((item, index) => (
+                            <AccordionItem key={index}>
+                                <h2>
+                                    <AccordionButton>
+                                        <Box as="span" flex="1" textAlign="left">
+                                            {item.title}
+                                        </Box>
+                                        <AccordionIcon />
+                                    </AccordionButton>
+                                </h2>
+                                <AccordionPanel pb={4}>{item.content}</AccordionPanel>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                )}
             </Box>
         </Center>
     );

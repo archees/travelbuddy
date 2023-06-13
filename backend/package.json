@@ -46,6 +46,7 @@
     "dotenv": "^16.0.3",
     "fastify": "^4.15.0",
     "fastify-plugin": "^4.5.0",
+    "fastify-auth0-verify": "^1.2.0",
     "mikro-orm-soft-delete": "^0.1.0"
   },
   "devDependencies": {
@@ -63,7 +64,6 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
-    "fastify-auth0-verify": "^1.2.0",
     "nodemon": "^2.0.22",
     "pino-pretty": "^10.0.0",
     "prettier": "2.8.8",
