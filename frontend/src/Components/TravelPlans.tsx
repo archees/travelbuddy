@@ -89,6 +89,7 @@ export const TravelPlans = () => {
                 });
                 setAccordionItems(items);
                 setShowAccordion(true);
+                console.log(accordionItems);
             } catch (error) {
                 console.error("Error fetching travel plans:", error);
             }
@@ -150,3 +151,5 @@ export const TravelPlans = () => {
         </Center>
     );
 };
+
+
