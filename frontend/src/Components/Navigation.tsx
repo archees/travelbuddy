@@ -9,33 +9,32 @@ export function NavBar() {
     return (
         <Flex
             as="nav"
-            width="100vw"
             align="center"
             paddingX="1rem"
             bg="teal.400"
             color="white"
+            position="relative"
+            zIndex="10" // Add this line to adjust the z-index
         >
-            <Box>
-                <Link to="/">Home</Link>
+            <Box height='35vh'>
+                <Link to="/">{' '}Home{' '}</Link>
                 {isAuthenticated &&  (
                     <>
-                        <Link to="/logout">Logout</Link>
-                        <Link to="/travelplans">Travel Posts</Link>
+                        <Link to="/logout">{' '}Logout{' '}</Link>
+                        <Link to="/travelplans">{' '}Travel Posts{' '}</Link>
+                        <Link to='/createtravelposts'>
+                            <Button
+                                variant="solid"
+                                colorScheme="teal"
+                                size="sm"
+                                leftIcon={<AddIcon />}
+                            >
+                                Create Travel Post
+                            </Button>
+                        </Link>
                     </>
                 )}
             </Box>
-            <Spacer />
-            {isAuthenticated && (
-
-                <Link to='/createtravelposts'><Button
-                    variant="solid"
-                    colorScheme="teal"
-                    size="sm"
-                    leftIcon={<AddIcon />}
-                >
-                    Create Travel Post
-                </Button></Link>
-            )}
         </Flex>
     );
 }

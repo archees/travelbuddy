@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Flex,
     Heading,
@@ -19,13 +20,8 @@ export default function Home() {
     };
 
     return (
-        <Stack
-            minH={'100vh'}
-            direction={{ base: 'column', md: 'row' }}
-            bg="teal.400"
-            color="white"
-            padding={8}
-        >
+        <>
+        <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Stack spacing={6} w={'full'} maxW={'lg'}>
                     <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
@@ -43,17 +39,20 @@ export default function Home() {
                         color={'white'}
                         _hover={{
                             bg: 'blue.500',
-                        }}
-                        onClick={onSubmitLogin}
-                    >
-                        Explore
+                        }} onClick={onSubmitLogin}>
+                        Login
                     </Button>
                 </Stack>
             </Flex>
-            <Flex flex={1} align={'center'} justify={'center'}>
-                <Image alt={'Home Image'} objectFit={'contain'} maxH={'70vh'} src={Homeimg} />
+            <Flex flex={1}>
+                <Image
+                    alt={'Home Image'}
+                    objectFit={'cover'}
+                    src={Homeimg}
+                />
                 <p style={{ color: 'gray', fontSize: '12px' }}>Image from Lottie files</p>
             </Flex>
         </Stack>
+        </>
     );
 }

@@ -84,6 +84,10 @@ export const CreateTravelPosts = () => {
                 <Box textAlign="center">
                     <h1><strong>Create Travel Post</strong></h1>
                 </Box>
+                {
+                    submitted === SubmissionStatus.SubmitFailed &&
+                    <h3 className="text-red-500">CREATING Travel Post FAILED!</h3>
+                }
                 <Box my={4} textAlign="left">
                     <form>
                         <FormControl>
