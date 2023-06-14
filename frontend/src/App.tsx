@@ -1,36 +1,48 @@
 import { useState } from "react";
+import { Link, Route, Routes, Router, BrowserRouter } from "react-router-dom";
 import reactLogo from "@images/react.svg";
 import viteLogo from "/vite.svg";
 import "@css/App.css";
-
+import { Auth0Provider } from '@auth0/auth0-react';
+import LoginButton from "@/Components/LoginButton.tsx";
+import LogoutButton from "@/Components/LogoutButton.tsx";
+import Profile from "@/Components/Profile.tsx";
+import {AuthProvider} from "@/Services/Auth.tsx";
+import {TBRouter} from "@/TBRouter.tsx";  // Assuming Profile is in the same directory as your other components
+const domain = import.meta.env.AUTH_DOMAIN;
+const clientid = import.meta.env.AUTH_CLIENT_ID;
+const audience = import.meta.env.AUTH_AUDIENCE;
+const scope = import.meta.env.AUTH_SCOPE;
+import { extendTheme, ChakraProvider } from '@chakra-ui/react'
+const colors = {
+	brand: {
+		900: '#1a365d',
+		800: '#153e75',
+		700: '#2a69ac',
+	},
+}
 // This is our first React "Component"
 export function App() {
-	// This is our frontend "State" that our component needs to keep track of/use
-	const [count, setCount] = useState(0);
-
-	// React component always returns JSX, or "html-in-javascript"
-	// https://react.dev/learn/writing-markup-with-jsx
-	// In particular, note <button onClick> here uses real JS instead
-	// of a string connection like our janky version!
 	return (
-		<>
-			<div>
-				<a href="https://vitejs.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-		</>
+		<BrowserRouter>
+			<Auth0Provider
+				domain={domain}
+				clientId={clientid}
+				authorizationParams={{
+					redirect_uri: window.location.origin,
+					audience: audience,
+					scope: scope,
+				}}
+			>
+				<AuthProvider>
+					<ChakraProvider>
+						<div className="App">
+							<TBRouter />
+						</div>
+					</ChakraProvider>
+				</AuthProvider>
+			</Auth0Provider>
+		</BrowserRouter>
 	);
 }
 

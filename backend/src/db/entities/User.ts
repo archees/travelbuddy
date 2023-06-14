@@ -23,8 +23,6 @@ export class User extends TBBaseEntity {
 	@Property()
 	name!: string
 
-	@Property()
-	password!: string;
 
 	@Enum(() => UserRole)
 	role!: UserRole; // string enum

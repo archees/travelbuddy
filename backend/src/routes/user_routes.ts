@@ -21,14 +21,13 @@ export function UserRoutesInit(app: FastifyInstance) {
 
 	// User CRUD
 	// Refactor note - We DO use email still for creation!  We can't know the ID yet
-	app.post<{ Body: ICreateUsersBody }>("/users", async (req, reply) => {
+	app.post<{ Body: ICreateUsersBody }>("/users", { onRequest: [app.auth] }, async (req, reply) => {
 		const { name, email, password} = req.body;
 
 		try {
 			const newUser = await req.em.create(User, {
 				name,
 				email,
-				password,
 				// We'll only create Admins manually!
 				role: UserRole.USER
 			});
@@ -71,10 +70,6 @@ export function UserRoutesInit(app: FastifyInstance) {
 		try {
 			// Authenticate my user's role
 			const me = await req.em.findOneOrFail(User, my_id, {strict: true});
-			// Check passwords match
-			if (me.password !== password) {
-				return reply.status(401).send();
-			}
 
 			// Make sure the requester is an Admin
 			if (me.role === UserRole.USER) {
@@ -92,6 +87,22 @@ export function UserRoutesInit(app: FastifyInstance) {
 			return reply.send(theUserToDelete);
 		} catch (err) {
 			return reply.status(500).send(err);
+		}
+		
+	});
+	app.post<{ Body: { email: string };	}>("/login", { onRequest: [app.auth] }, async (req, reply) => {
+		const { email } = req.body;
+
+		try {
+			const me = await req.em.findOne(User, { email });
+			if (me) {
+				reply.status(200).send({exists: true, id: me.id});
+			} else {
+				reply.status(200).send({exists: false, id: null});
+			}
+		} catch (err) {
+			app.log.error(err);
+			reply.status(500).send(err);
 		}
 	});
 }

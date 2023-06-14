@@ -5,7 +5,7 @@ import { ICreateReview } from "../types.js";
 
 export function ReviewsRoutesInit(app: FastifyInstance) {
     // Create a new review
-    app.post<{ Body: ICreateReview }>("/reviews", async (req, reply) => {
+    app.post<{ Body: ICreateReview }>("/reviews", { onRequest: [app.auth] }, async (req, reply) => {
         const { rating, comment, reviewer_id, user_id } = req.body;
 
         try {

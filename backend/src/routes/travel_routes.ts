@@ -6,7 +6,7 @@ import { ICreateTravelPlan } from "../types.js";
 export function TravelPlanRoutesInit(app: FastifyInstance) {
 
     // Create a new Travel Plan
-    app.post<{ Body: ICreateTravelPlan }>("/travelplans", async (req, reply) => {
+    app.post<{ Body: ICreateTravelPlan }>("/travelplans", { onRequest: [app.auth] }, async (req, reply) => {
         const { poster_id, FromlocationCity, FromlocationState, Destination, startDate, endDate, spaceAvailable, cost, requirements } = req.body;
 
         try {
@@ -41,12 +41,21 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
             return reply.status(500).send({ message: err.message });
         }
     });
+    app.search<{ Body: {FromlocationState:string} }>("/travelplans/location", async (req, reply) => {
+        const FromlocationState=req.body;
+        try {
+            const travelPlans = await req.em.find(TravelPlans, FromlocationState);
+            return reply.send(travelPlans);
+        } catch (err) {
+            return reply.status(500).send({ message: err.message });
+        }
+    });
 
     // Get Travel Plan by ID
-    app.search<{ Body: { planid: number } }>("/travelplans/:id", async (req, reply) => {
-        const planid=req.body;
+    app.search<{ Body: { id: number } }>("/travelplans/:id", async (req, reply) => {
+        const { id } = req.params;
         try {
-            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, id, { strict: true });
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
@@ -57,16 +66,32 @@ export function TravelPlanRoutesInit(app: FastifyInstance) {
     });
 
     // Update a Travel Plan by ID
-    app.put<{ Body: {planid:number} }>("/travelplans/:id", async (req, reply) => {
-        const planid=req.body;
+    app.put<{ Params: { id: number }; Body: ICreateTravelPlan }>("/travelplans/:id", async (req, reply) => {
+        const { id } = req.params;
         try {
-            const travelPlan = await req.em.findOneOrFail(TravelPlans, planid,{strict: true});
+            const travelPlan = await req.em.findOneOrFail(TravelPlans, id, { strict: true });
             if (!travelPlan) {
                 return reply.status(404).send({ message: "Travel plan not found" });
             }
             Object.assign(travelPlan, req.body);
             await req.em.persistAndFlush(travelPlan);
             return reply.send(travelPlan);
+        } catch (err) {
+            return reply.status(500).send({ message: err.message });
+        }
+    });
+    //get travelplans of a poster
+    app.get<{ Body: { poster: string } }>("/travelplans/user/poster", async (req, reply) => {
+        const { poster } = req.params;
+        try {
+            const userRepository = req.em.getRepository(User);
+            const user = await userRepository.findOne({ name: poster });
+            if (!user) {
+                return reply.status(404).send({ message: "User not found" });
+            }
+
+            const travelPlans = await req.em.find(TravelPlans, { poster: user });
+            return reply.send(travelPlans);
         } catch (err) {
             return reply.status(500).send({ message: err.message });
         }

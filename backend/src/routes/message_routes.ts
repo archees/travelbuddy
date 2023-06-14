@@ -81,17 +81,56 @@ export function MessageRoutesInit(app: FastifyInstance) {
 			return reply.status(500).send({ message: err.message });
 		}
 	});
+	app.search<{ Body: { id: number } }>("/messages/all", async (req, reply) => {
+		const { id: id } = req.body;
+
+
+
+		async function getUserMessages(id: number) {
+			// Assuming em is your initialized MikroORM EntityManager
+
+			const user = await req.em.getReference(User, id);
+			console.log(user);
+			// Fetching all messages sent by the user
+			const sentMessages = await req.em.find(Message, { sender: user}, {populate: ["receiver"]});
+
+			// Fetching all messages received by the user
+			const receivedMessages = await req.em.find(Message, { receiver: user }, {populate: ["sender"]});
+
+			let sentWithReceiverProfile = sentMessages.map( message => {
+				const message_text = message.message;
+				const receiver: User = message.receiver;
+				return [message_text, receiver];
+			});
+
+			let receivedWithSentProfile = receivedMessages.map(message => {
+				const message_text = message.message;
+				// @ts-ignore Typescript is simply wrong on this one because Mikro's typedec isn't complex enough
+				let sender: User = message.sender;
+				return [message_text, sender]
+			})
+
+			return {sent: sentWithReceiverProfile, received: receivedWithSentProfile};
+		}
+
+
+		try {
+			const messages = await getUserMessages(id);
+			console.log(messages);
+			return reply.send(messages);
+		} catch (err) {
+			console.log(err);
+			return reply.status(500).send({ message: err.message });
+		}
+	});
 
 	// Delete a specific message -- should we check for admin role here? Probably!
-	app.delete<{ Body: { my_id: number, message_id: number; password: string } }>("/messages", async (req, reply) => {
-		const { my_id, message_id, password } = req.body;
+	app.delete<{ Body: { my_id: number, message_id: number; } }>("/messages", async (req, reply) => {
+		const { my_id, message_id } = req.body;
 
 		try {
 			const me = await req.em.findOneOrFail(User, my_id, {strict: true});
 			// Check passwords match
-			if (me.password !== password) {
-				return reply.status(401).send();
-			}
 
 			const msgToDelete = await req.em.findOneOrFail(Message, message_id, {strict: true});
 			await req.em.removeAndFlush(msgToDelete);
@@ -111,9 +150,6 @@ export function MessageRoutesInit(app: FastifyInstance) {
 				const me = await req.em.findOneOrFail(User, my_id, { strict: true });
 
 				// Check passwords match
-				if (me.password !== password) {
-					return reply.status(401).send();
-				}
 
 				// populate our messages_sent relation
 				await me.messages_sent.init();
@@ -128,4 +164,5 @@ export function MessageRoutesInit(app: FastifyInstance) {
 			}
 		}
 	);
+
 }

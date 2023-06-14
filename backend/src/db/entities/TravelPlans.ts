@@ -6,8 +6,6 @@ import {Entity, Property, ManyToMany, Collection, ManyToOne, PrimaryKey} from "@
 
 @Entity()
 export class TravelPlans extends TBBaseEntity {
-    @PrimaryKey()
-    planid:number;
     //user who posted
     @ManyToOne('User')
     poster!: Ref<User>;
