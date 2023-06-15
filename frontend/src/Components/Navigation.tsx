@@ -20,9 +20,14 @@ export function NavBar() {
                 <Link to="/">{' '}Home{' '}</Link>
                 {isAuthenticated &&  (
                     <>
-                        <Link to="/logout">{' '}Logout{' '}</Link>
-                        <Link to="/travelplans">{' '}Travel Posts{' '}</Link>
-                        <Link to="/Profile">{' '}Profile{' '}</Link>
+                        <Link to="/travelplans"><Button
+                            variant="solid"
+                            colorScheme="teal"
+                            size="sm">Travel Plans</Button></Link>
+                        <Link to="/Profile"><Button
+                            variant="solid"
+                            colorScheme="teal"
+                            size="sm">Profile</Button></Link>
                         <Link to='/createtravelposts'>
                             <Button
                                 variant="solid"
@@ -32,6 +37,12 @@ export function NavBar() {
                             >
                                 Create Travel Post
                             </Button>
+                        </Link>
+                        <Link to="/logout"><Button
+                            variant="solid"
+                            colorScheme="teal"
+                            size="sm"></Button>
+
                         </Link>
                     </>
                 )}
