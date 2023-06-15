@@ -47,7 +47,7 @@ export const TravelPlans = () => {
                         fetchuserid(plan.poster_id);
                     }, []);
 
-                    const title = `${poster} - From ${plan.FromlocationCity} ${plan.FromlocationState} to ${plan.Destination} ($${plan.cost})`;
+                    const title = `${poster} - From ${plan.FromlocationCity} ${plan.FromlocationState} to ${plan.Destination} -cost:($${plan.cost})`;
                     const content = (
                         <div>
                             <p>From: {plan.FromlocationCity}, {plan.FromlocationState}</p>

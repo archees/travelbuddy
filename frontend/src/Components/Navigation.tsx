@@ -16,12 +16,13 @@ export function NavBar() {
             position="relative"
             zIndex="10" // Add this line to adjust the z-index
         >
-            <Box height='35vh'>
+            <Box height='12vh'>
                 <Link to="/">{' '}Home{' '}</Link>
                 {isAuthenticated &&  (
                     <>
                         <Link to="/logout">{' '}Logout{' '}</Link>
                         <Link to="/travelplans">{' '}Travel Posts{' '}</Link>
+                        <Link to="/Profile">{' '}Profile{' '}</Link>
                         <Link to='/createtravelposts'>
                             <Button
                                 variant="solid"
