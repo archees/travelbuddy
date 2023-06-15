@@ -30,5 +30,29 @@ httpClient.search = async(path, data) => {
     return httpClient.request(config);
 
 };
+export async function getUserId(name) {
+    const data = JSON.stringify({
+        "name": name
+    });
+
+    const config = {
+        method: 'search',
+        maxBodyLength: Infinity,
+        url: `${serverUrl}/users`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data : data
+    };
+
+    axios.request(config)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    return null;
+}
 
 export { httpClient };

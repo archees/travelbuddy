@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Reviews } from "../db/entities/Reviews.js";
 import { User } from "../db/entities/User.js";
 import { ICreateReview } from "../types.js";
+import {TravelPlans} from "../db/entities/TravelPlans.js";
 
 export function ReviewsRoutesInit(app: FastifyInstance) {
     // Create a new review
@@ -42,7 +43,15 @@ export function ReviewsRoutesInit(app: FastifyInstance) {
             return reply.status(500).send({ message: err.message });
         }
     });
-
+    app.search<{ Body: {user_id:number} }>("/reviews/user", async (req, reply) => {
+        const user_id=req.body;
+        try {
+            const reviews = await req.em.find(Reviews, user_id);
+            return reply.send(reviews);
+        } catch (err) {
+            return reply.status(500).send({ message: err.message });
+        }
+    });
     // Get a specific review by its ID
     app.get<{ Params: { user_id: number } }>("/reviews/:id", async (req, reply) => {
         const { user_id } = req.params;

@@ -6,6 +6,7 @@ import Home from "@/Components/Home.tsx";
 import {Logout} from "@/Components/Logout.tsx";
 import {NavBar} from "@/Components/Navigation.tsx";
 import {TravelPlans} from "@/Components/TravelPlans.tsx";
+import {CreateTravelPosts} from "@/Components/CreateTravelPosts.tsx";
 
 export function TBRouter() {
 
@@ -15,6 +16,7 @@ export function TBRouter() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/travelplans" element={<ProtectedRoute><TravelPlans /></ProtectedRoute>} />
+                    <Route path="/createtravelposts" element={<ProtectedRoute><CreateTravelPosts /></ProtectedRoute>} />
                     <Route path="/Profile" element={<Profile/>}/>
                     <Route path="/login" element={<Login />} />
                     <Route path="/logout" element={<Logout />} />

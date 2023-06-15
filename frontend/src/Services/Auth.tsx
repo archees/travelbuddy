@@ -124,6 +124,6 @@ export async function UserInfo(accessToken: string) {
     const decodedToken: DecodedToken = jwtDecode(accessToken);
     const {
         "https://www.myapi.com/email": email,"https://www.myapi.com/nickname": name} = decodedToken;
-    return { email, name  };
+    return { email, name };
 }
 
