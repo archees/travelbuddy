@@ -14,11 +14,8 @@ export function Login() {
     }, [isAuthenticated, navigate]);
     return (
         <VStack
-            height="100vh"
-            width="100%"
             justify="center"
             align="center"
-            bg="teal.400"
             spacing={6}
         >
             <Text color="white" fontSize="xl" fontWeight="bold">

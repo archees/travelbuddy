@@ -50,8 +50,8 @@ export default function Home() {
                     objectFit={'cover'}
                     src={Homeimg}
                 />
-                <p style={{ color: 'gray', fontSize: '12px' }}>Image from Lottie files</p>
             </Flex>
+            <p style={{ color: 'gray', fontSize: '12px' }}>Image from Lottie files</p>
         </Stack>
         </>
     );
